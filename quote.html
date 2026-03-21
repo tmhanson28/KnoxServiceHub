@@ -2,41 +2,166 @@
 <html>
 <head>
   <title>Get a Quote | KnoxServiceHub</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body style="font-family: Arial; margin: 0; background: #f7f7f7;">
 
   <div style="max-width: 700px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px;">
     <h1 style="text-align: center;">Request a Quote</h1>
     <p style="text-align: center;">Tell us what you need and we’ll connect you with trusted local contractors.</p>
 
-    <form action="thank-you.html">
+    <form id="quoteForm">
+      
       <label><b>Full Name</b></label><br>
-      <input type="text" style="width: 100%; padding: 12px; margin: 8px 0 20px 0;"><br>
+      <input id="full_name" type="text" style="width: 100%; padding: 12px; margin: 8px 0 20px 0;" required><br>
 
       <label><b>Phone Number</b></label><br>
-      <input type="tel" style="width: 100%; padding: 12px; margin: 8px 0 20px 0;"><br>
+      <input id="phone" type="tel" style="width: 100%; padding: 12px; margin: 8px 0 20px 0;" required><br>
 
       <label><b>Service Needed</b></label><br>
-      <select style="width: 100%; padding: 12px; margin: 8px 0 20px 0;">
-        <option>Roofing</option>
-        <option>HVAC</option>
-        <option>Plumbing</option>
-        <option>Electrical</option>
-        <option>Landscaping</option>
-        <option>Handyman</option>
+      <select id="service_needed" style="width: 100%; padding: 12px; margin: 8px 0 20px 0;" required>
+        <option value="Roofing">Roofing</option>
+        <option value="HVAC">HVAC</option>
+        <option value="Plumbing">Plumbing</option>
+        <option value="Electrical">Electrical</option>
+        <option value="Landscaping">Landscaping</option>
+        <option value="Handyman">Handyman</option>
       </select><br>
 
       <label><b>ZIP Code</b></label><br>
-      <input type="text" style="width: 100%; padding: 12px; margin: 8px 0 20px 0;"><br>
+      <input id="zip_code" type="text" style="width: 100%; padding: 12px; margin: 8px 0 20px 0;" required><br>
 
       <label><b>Describe Your Project</b></label><br>
-      <textarea style="width: 100%; padding: 12px; margin: 8px 0 20px 0; height: 120px;"></textarea><br>
+      <textarea id="project_description" style="width: 100%; padding: 12px; margin: 8px 0 20px 0; height: 120px;" required></textarea><br>
 
       <button type="submit" style="width: 100%; padding: 15px; font-size: 18px; background: #f59e0b; border: none; cursor: pointer;">
         Submit Request
       </button>
+
     </form>
+
+    <p id="statusMessage" style="text-align: center; margin-top: 15px;"></p>
   </div>
+
+  <script>
+    const supabaseUrl = "https://cawiqxxcrvrfdgahiftc.supabase.co";
+    const supabaseKey = "<!DOCTYPE html>
+<html>
+<head>
+  <title>Get a Quote | KnoxServiceHub</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body style="font-family: Arial; margin: 0; background: #f7f7f7;">
+
+  <div style="max-width: 700px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px;">
+    <h1 style="text-align: center;">Request a Quote</h1>
+    <p style="text-align: center;">Tell us what you need and we’ll connect you with trusted local contractors.</p>
+
+    <form id="quoteForm">
+      
+      <label><b>Full Name</b></label><br>
+      <input id="full_name" type="text" style="width: 100%; padding: 12px; margin: 8px 0 20px 0;" required><br>
+
+      <label><b>Phone Number</b></label><br>
+      <input id="phone" type="tel" style="width: 100%; padding: 12px; margin: 8px 0 20px 0;" required><br>
+
+      <label><b>Service Needed</b></label><br>
+      <select id="service_needed" style="width: 100%; padding: 12px; margin: 8px 0 20px 0;" required>
+        <option value="Roofing">Roofing</option>
+        <option value="HVAC">HVAC</option>
+        <option value="Plumbing">Plumbing</option>
+        <option value="Electrical">Electrical</option>
+        <option value="Landscaping">Landscaping</option>
+        <option value="Handyman">Handyman</option>
+      </select><br>
+
+      <label><b>ZIP Code</b></label><br>
+      <input id="zip_code" type="text" style="width: 100%; padding: 12px; margin: 8px 0 20px 0;" required><br>
+
+      <label><b>Describe Your Project</b></label><br>
+      <textarea id="project_description" style="width: 100%; padding: 12px; margin: 8px 0 20px 0; height: 120px;" required></textarea><br>
+
+      <button type="submit" style="width: 100%; padding: 15px; font-size: 18px; background: #f59e0b; border: none; cursor: pointer;">
+        Submit Request
+      </button>
+
+    </form>
+
+    <p id="statusMessage" style="text-align: center; margin-top: 15px;"></p>
+  </div>
+
+  <script>
+    const supabaseUrl = "https://cawiqxxcrvrfdgahiftc.supabase.co";
+    const supabaseKey = "PASTE_YOUR_ANON_KEY_HERE";
+
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    const form = document.getElementById("quoteForm");
+    const statusMessage = document.getElementById("statusMessage");
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      statusMessage.textContent = "Submitting request...";
+
+      const leadData = {
+        full_name: document.getElementById("full_name").value,
+        phone: document.getElementById("phone").value,
+        service_needed: document.getElementById("service_needed").value,
+        zip_code: document.getElementById("zip_code").value,
+        project_description: document.getElementById("project_description").value
+      };
+
+      const { error } = await supabase
+        .from("leads")
+        .insert([leadData]);
+
+      if (error) {
+        console.error(error);
+        statusMessage.textContent = "Error submitting request.";
+        return;
+      }
+
+      window.location.href = "thank-you.html";
+    });
+  </script>
+
+</body>
+</html>";
+
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    const form = document.getElementById("quoteForm");
+    const statusMessage = document.getElementById("statusMessage");
+
+    form.addEventListener("submit", async function(event) {
+      event.preventDefault();
+
+      statusMessage.textContent = "Submitting request...";
+
+      const leadData = {
+        full_name: document.getElementById("full_name").value,
+        phone: document.getElementById("phone").value,
+        service_needed: document.getElementById("service_needed").value,
+        zip_code: document.getElementById("zip_code").value,
+        project_description: document.getElementById("project_description").value
+      };
+
+      const { error } = await supabase
+        .from("leads")
+        .insert([leadData]);
+
+      if (error) {
+        console.error(error);
+        statusMessage.textContent = "Error submitting request.";
+        return;
+      }
+
+      window.location.href = "thank-you.html";
+    });
+  </script>
 
 </body>
 </html>
