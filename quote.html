@@ -9,57 +9,64 @@
 
   <div style="max-width: 700px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px;">
     <h1 style="text-align: center;">Request a Quote</h1>
+    <p style="text-align: center;">Tell us what you need and we’ll connect you with trusted local contractors.</p>
 
-    <form id="quoteForm">
-      
+    <form id="quoteForm" onsubmit="return false;">
       <input id="full_name" type="text" placeholder="Full Name" required style="width:100%; padding:12px; margin-bottom:15px;">
       <input id="phone" type="tel" placeholder="Phone Number" required style="width:100%; padding:12px; margin-bottom:15px;">
-      
+
       <select id="service_needed" required style="width:100%; padding:12px; margin-bottom:15px;">
         <option value="">Select Service</option>
-        <option>Roofing</option>
-        <option>HVAC</option>
-        <option>Plumbing</option>
-        <option>Electrical</option>
-        <option>Landscaping</option>
-        <option>Handyman</option>
+        <option value="Roofing">Roofing</option>
+        <option value="HVAC">HVAC</option>
+        <option value="Plumbing">Plumbing</option>
+        <option value="Electrical">Electrical</option>
+        <option value="Landscaping">Landscaping</option>
+        <option value="Handyman">Handyman</option>
       </select>
 
       <input id="zip_code" type="text" placeholder="ZIP Code" required style="width:100%; padding:12px; margin-bottom:15px;">
-      
-      <textarea id="project_description" placeholder="Describe your project" required style="width:100%; padding:12px; height:120px;"></textarea>
 
-      <button type="submit" style="width:100%; padding:15px; font-size:18px; background:#f59e0b; border:none; margin-top:15px;">
+      <textarea id="project_description" placeholder="Describe your project" required style="width:100%; padding:12px; height:120px; margin-bottom:15px;"></textarea>
+
+      <button id="submitBtn" type="button" style="width:100%; padding:15px; font-size:18px; background:#f59e0b; border:none;">
         Submit Request
       </button>
-
     </form>
 
     <p id="statusMessage" style="text-align:center; margin-top:15px;"></p>
-
   </div>
 
   <script>
     const supabaseUrl = "https://cawiqxxcrvrfdgahiftc.supabase.co";
     const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhd2lxeHhjcnZyZmRnYWhpZnRjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNTU2MzYsImV4cCI6MjA4OTYzMTYzNn0.Jv89r6SQEvnFBzmodhOBVzd9oXSOEf_Wb1C2R3aMsc0";
 
-    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-    document.getElementById("quoteForm").addEventListener("submit", async function(event) {
-      event.preventDefault();
+    document.getElementById("submitBtn").addEventListener("click", async function () {
+      const statusMessage = document.getElementById("statusMessage");
+      statusMessage.textContent = "Submitting...";
 
-      document.getElementById("statusMessage").textContent = "Submitting...";
-
-      const { error } = await supabase.from("leads").insert([{
+      const leadData = {
         full_name: document.getElementById("full_name").value,
         phone: document.getElementById("phone").value,
         service_needed: document.getElementById("service_needed").value,
         zip_code: document.getElementById("zip_code").value,
         project_description: document.getElementById("project_description").value
-      }]);
+      };
+
+      if (!leadData.full_name || !leadData.phone || !leadData.service_needed || !leadData.zip_code || !leadData.project_description) {
+        statusMessage.textContent = "Please fill out all fields.";
+        return;
+      }
+
+      const { error } = await supabaseClient
+        .from("leads")
+        .insert([leadData]);
 
       if (error) {
-        document.getElementById("statusMessage").textContent = "Error submitting request.";
+        console.error(error);
+        statusMessage.textContent = "Error submitting request.";
         return;
       }
 
