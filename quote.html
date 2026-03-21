@@ -65,9 +65,9 @@
         .insert([leadData]);
 
       if (error) {
-        console.error(error);
-        statusMessage.textContent = "Error submitting request.";
-        return;
+  console.error(error);
+  statusMessage.textContent = "Error: " + error.message;
+  return;
       }
 
       window.location.href = "thank-you.html";
