@@ -4,36 +4,103 @@
   <title>Get a Quote | KnoxServiceHub</title>
 </head>
 
-<body style="font-family: Arial; margin: 0; background: #f7f7f7;">
+<body style="font-family: Arial, sans-serif; margin: 0; background: #f7f7f7; color: #111;">
 
-  <div style="max-width: 700px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px;">
-    <h1 style="text-align: center;">Request a Quote</h1>
-    <p style="text-align: center;">Tell us what you need and we’ll connect you with trusted local contractors.</p>
+  <!-- HEADER / HERO -->
+  <div style="background:#111; color:white; padding:40px 20px; text-align:center;">
+    <h1 style="margin:0 0 10px 0; font-size:32px;">Request Your Free Quote</h1>
+    <p style="margin:0; font-size:17px;">Fast, simple, and built to connect you with trusted local contractors.</p>
+  </div>
 
-    <form id="quoteForm" onsubmit="return false;">
-      <input id="full_name" type="text" placeholder="Full Name" required style="width:100%; padding:12px; margin-bottom:15px;">
-      <input id="phone" type="tel" placeholder="Phone Number" required style="width:100%; padding:12px; margin-bottom:15px;">
+  <!-- MAIN CONTENT -->
+  <div style="max-width:760px; margin:30px auto; padding:0 15px;">
 
-      <select id="service_needed" required style="width:100%; padding:12px; margin-bottom:15px;">
-        <option value="">Select Service</option>
-        <option value="Roofing">Roofing</option>
-        <option value="HVAC">HVAC</option>
-        <option value="Plumbing">Plumbing</option>
-        <option value="Electrical">Electrical</option>
-        <option value="Landscaping">Landscaping</option>
-        <option value="Handyman">Handyman</option>
-      </select>
+    <!-- FORM CARD -->
+    <div style="background:white; border-radius:12px; padding:30px; box-shadow:0 2px 10px rgba(0,0,0,0.08);">
 
-      <input id="zip_code" type="text" placeholder="ZIP Code" required style="width:100%; padding:12px; margin-bottom:15px;">
+      <div style="text-align:center; margin-bottom:25px;">
+        <p style="margin:0 0 8px 0; color:#555; font-weight:bold;">Step 1 of 1 — Tell us what you need</p>
+        <h2 style="margin:0 0 10px 0;">Get Started in Less Than 60 Seconds</h2>
+        <p style="margin:0; color:#555;">No spam. No pressure. Just real help from local professionals.</p>
+        <p style="margin:15px 0 0 0; font-weight:bold;">Start below 👇</p>
+      </div>
 
-      <textarea id="project_description" placeholder="Describe your project" required style="width:100%; padding:12px; height:120px; margin-bottom:15px;"></textarea>
+      <form id="quoteForm" onsubmit="return false;">
 
-      <button id="submitBtn" type="button" style="width:100%; padding:15px; font-size:18px; background:#f59e0b; border:none;">
-        Submit Request
-      </button>
-    </form>
+        <label style="display:block; font-weight:bold; margin-bottom:6px;">Full Name</label>
+        <input
+          id="full_name"
+          type="text"
+          placeholder="Your full name"
+          required
+          style="width:100%; padding:14px; margin-bottom:18px; border:1px solid #ccc; border-radius:8px; box-sizing:border-box;"
+        >
 
-    <p id="statusMessage" style="text-align:center; margin-top:15px;"></p>
+        <label style="display:block; font-weight:bold; margin-bottom:6px;">Phone Number</label>
+        <input
+          id="phone"
+          type="tel"
+          placeholder="Best phone number"
+          required
+          style="width:100%; padding:14px; margin-bottom:18px; border:1px solid #ccc; border-radius:8px; box-sizing:border-box;"
+        >
+
+        <label style="display:block; font-weight:bold; margin-bottom:6px;">Service Needed</label>
+        <select
+          id="service_needed"
+          required
+          style="width:100%; padding:14px; margin-bottom:18px; border:1px solid #ccc; border-radius:8px; box-sizing:border-box;"
+        >
+          <option value="">Select a service</option>
+          <option value="Roofing">Roofing</option>
+          <option value="HVAC">HVAC</option>
+          <option value="Plumbing">Plumbing</option>
+          <option value="Electrical">Electrical</option>
+          <option value="Landscaping">Landscaping</option>
+          <option value="Handyman">Handyman</option>
+        </select>
+
+        <label style="display:block; font-weight:bold; margin-bottom:6px;">ZIP Code</label>
+        <input
+          id="zip_code"
+          type="text"
+          placeholder="Your ZIP code"
+          required
+          style="width:100%; padding:14px; margin-bottom:18px; border:1px solid #ccc; border-radius:8px; box-sizing:border-box;"
+        >
+
+        <label style="display:block; font-weight:bold; margin-bottom:6px;">Describe Your Project</label>
+        <textarea
+          id="project_description"
+          placeholder="Briefly describe what you need help with"
+          required
+          style="width:100%; padding:14px; height:130px; margin-bottom:20px; border:1px solid #ccc; border-radius:8px; box-sizing:border-box;"
+        ></textarea>
+
+        <button
+          id="submitBtn"
+          type="button"
+          style="width:100%; padding:16px; font-size:18px; font-weight:bold; background:#f59e0b; color:#111; border:none; border-radius:8px; cursor:pointer;"
+        >
+          Get My Free Quotes
+        </button>
+
+      </form>
+
+      <p id="statusMessage" style="text-align:center; margin-top:16px; font-weight:bold;"></p>
+    </div>
+
+    <!-- TRUST SECTION -->
+    <div style="margin-top:20px; background:#fff; border-radius:12px; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+      <h3 style="margin-top:0; text-align:center;">Why Homeowners Use KnoxServiceHub</h3>
+      <div style="max-width:620px; margin:0 auto; color:#444;">
+        <p style="margin:10px 0;">✔ Your request is only shared with a limited number of contractors</p>
+        <p style="margin:10px 0;">✔ No obligation to hire anyone</p>
+        <p style="margin:10px 0;">✔ Fast, simple, and built to save you time</p>
+        <p style="margin:10px 0;">✔ You stay in control the entire time</p>
+      </div>
+    </div>
+
   </div>
 
   <script>
@@ -53,10 +120,12 @@
 
       if (!leadData.full_name || !leadData.phone || !leadData.service_needed || !leadData.zip_code || !leadData.project_description) {
         statusMessage.textContent = "Please fill out all fields.";
+        statusMessage.style.color = "red";
         return;
       }
 
-      statusMessage.textContent = "Submitting...";
+      statusMessage.textContent = "Submitting request...";
+      statusMessage.style.color = "#111";
 
       try {
         const response = await fetch(`${supabaseUrl}/rest/v1/Leads`, {
@@ -73,12 +142,14 @@
         if (!response.ok) {
           const errorText = await response.text();
           statusMessage.textContent = "Error: " + errorText;
+          statusMessage.style.color = "red";
           return;
         }
 
         window.location.href = "thank-you.html";
       } catch (err) {
         statusMessage.textContent = "Error: " + err.message;
+        statusMessage.style.color = "red";
       }
     });
   </script>
