@@ -7,16 +7,13 @@
 
 <body style="font-family: Arial, sans-serif; margin: 0; background: #f7f7f7; color: #111;">
 
-  <!-- HEADER -->
   <div style="background:#111; color:white; padding:40px 20px; text-align:center;">
     <h1 style="margin:0 0 10px 0; font-size:32px;">Request Your Free Quote</h1>
     <p style="margin:0; font-size:17px;">Fast, simple, and built to connect you with trusted local contractors.</p>
   </div>
 
-  <!-- MAIN CONTENT -->
   <div style="max-width:760px; margin:30px auto; padding:0 15px;">
 
-    <!-- FORM CARD -->
     <div style="background:white; border-radius:12px; padding:30px; box-shadow:0 2px 10px rgba(0,0,0,0.08);">
 
       <div style="text-align:center; margin-bottom:25px;">
@@ -91,7 +88,6 @@
       <p id="statusMessage" style="text-align:center; margin-top:16px; font-weight:bold;"></p>
     </div>
 
-    <!-- TRUST SECTION -->
     <div style="margin-top:20px; background:#fff; border-radius:12px; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.05);">
       <h3 style="margin-top:0; text-align:center;">Why Homeowners Use KnoxServiceHub</h3>
       <div style="max-width:620px; margin:0 auto; color:#444;">
@@ -106,7 +102,7 @@
 
   <script>
     const supabaseUrl = "https://cawiqxxcrvrfdgahiftc.supabase.co";
-    const supabaseKey = "const supabaseKey = "PASTE_YOUR_PUBLISHABLE_KEY_HERE";";
+    const supabaseKey = "sb_publishable_P0WGhyTiw8zrf1j7TpfAuA_0muLDdjL";
 
     async function apiRequest(url, options = {}) {
       const response = await fetch(url, {
@@ -141,13 +137,13 @@
       const leadData = {
         full_name: document.getElementById("full_name").value.trim(),
         phone: document.getElementById("phone").value.trim(),
-        service_needed: document.getElementById("service_needed").value,
+        service_category: document.getElementById("service_needed").value,
         zip_code: document.getElementById("zip_code").value.trim(),
         project_description: document.getElementById("project_description").value.trim(),
         status: "new"
       };
 
-      if (!leadData.full_name || !leadData.phone || !leadData.service_needed || !leadData.zip_code || !leadData.project_description) {
+      if (!leadData.full_name || !leadData.phone || !leadData.service_category || !leadData.zip_code || !leadData.project_description) {
         statusMessage.textContent = "Please fill out all fields.";
         statusMessage.style.color = "red";
         return;
@@ -157,7 +153,7 @@
       statusMessage.style.color = "#111";
 
       try {
-        // 1. Insert lead into Leads table
+        // 1. Insert lead
         const insertedLeads = await apiRequest(`${supabaseUrl}/rest/v1/Leads`, {
           method: "POST",
           headers: {
@@ -169,13 +165,13 @@
         const lead = insertedLeads[0];
         const leadId = lead.id;
 
-        // 2. Find top 3 active contractors by service + priority
+        // 2. Find top active contractors by service and priority
         const contractors = await apiRequest(
-          `${supabaseUrl}/rest/v1/contractors?service_type=eq.${encodeURIComponent(leadData.service_needed)}&is_active=eq.true&order=priority_score.desc&limit=3`,
+          `${supabaseUrl}/rest/v1/contractors?service_type=eq.${encodeURIComponent(leadData.service_category)}&is_active=eq.true&order=priority_score.desc&limit=3`,
           { method: "GET" }
         );
 
-        // 3. If no contractors found, mark lead as unmatched
+        // 3. No contractors found
         if (!contractors || contractors.length === 0) {
           await apiRequest(`${supabaseUrl}/rest/v1/Leads?id=eq.${leadId}`, {
             method: "PATCH",
@@ -186,7 +182,7 @@
           return;
         }
 
-        // 4. Create lead-contractor match rows
+        // 4. Create contractor match rows
         const matchRows = contractors.map((contractor, index) => ({
           lead_id: leadId,
           contractor_id: contractor.id,
@@ -199,13 +195,13 @@
           body: JSON.stringify(matchRows)
         });
 
-        // 5. Update lead status to matched
+        // 5. Update lead status
         await apiRequest(`${supabaseUrl}/rest/v1/Leads?id=eq.${leadId}`, {
           method: "PATCH",
           body: JSON.stringify({ status: "matched" })
         });
 
-        // 6. Redirect homeowner
+        // 6. Redirect
         window.location.href = "thank-you.html";
 
       } catch (err) {
